@@ -6,7 +6,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
+    <ion-content :fullscreen="true" class="ion-padding-right">
       <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
@@ -16,6 +16,8 @@
           <ion-title size="large">Inbox</ion-title>
         </ion-toolbar>
       </ion-header>
+
+      <ion-searchbar value=""></ion-searchbar>
 
       <ion-list>
         <MessageListItem v-for="message in messages" :key="message.id" :message="message" />
@@ -47,3 +49,12 @@ const refresh = (ev: CustomEvent) => {
   }, 3000);
 };
 </script>
+
+<style scoped lang="scss">
+.input-search {
+  border-radius: 20px;
+  border: 1px solid #b6b6b6;
+  padding: 0 1rem !important;
+  margin: 20px !important;
+}
+</style>
