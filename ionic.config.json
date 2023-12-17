@@ -1,0 +1,8 @@
+{
+  "name": "mail-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "e32ecee5"
+}
