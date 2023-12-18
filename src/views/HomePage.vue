@@ -17,10 +17,15 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-searchbar v-model="searchQuery" placeholder="Search by content"></ion-searchbar>
+      <ion-searchbar v-model="searchQuery"></ion-searchbar>
 
       <ion-list>
-        <MessageListItem v-for="message in filteredMessages" :key="message.id" :message="message" />
+        <MessageListItem 
+          v-for="message in filteredMessages" 
+          :key="message.id" 
+          :message="message" 
+          @click="markMessageAsReadAndNavigate(message.id)"
+        />
       </ion-list>
     </ion-content>
   </ion-page>
@@ -41,6 +46,7 @@ import {
 import MessageListItem from '@/components/MessageListItem.vue';
 import { getMessages, Message } from '@/data/messages';
 import { ref, computed } from 'vue';
+import router from '@/router';
 
 const messages = ref<Message[]>(getMessages());
 const searchQuery = ref<string>('');
@@ -55,6 +61,14 @@ const filteredMessages = computed(() => {
     );
   }
 });
+
+const markMessageAsReadAndNavigate = (id: number) => {
+  const message = messages.value.find((msg) => msg.id === id);
+  if (message && !message.read) {
+    message.read = true;
+    router.push({ name: 'view-message', params: { id: message.id.toString() } });
+  }
+};
 
 const refresh = (ev: CustomEvent) => {
   setTimeout(() => {

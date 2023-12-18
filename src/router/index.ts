@@ -14,13 +14,14 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/message/:id',
+    name: 'view-message',
     component: () => import('../views/ViewMessagePage.vue')
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;
