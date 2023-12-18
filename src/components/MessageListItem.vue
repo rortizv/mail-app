@@ -2,7 +2,7 @@
   <ion-item v-if="message" :routerLink="'/message/' + message.id" :detail="false" class="list-item">
     <div slot="start" :class="!message.read ? 'dot dot-unread' : 'dot'"></div>
     <ion-label class="ion-text-wrap">
-      <h2>
+      <h2 class="ion-text-wrap">
         {{ message.fromName }}
         <span class="date">
           <ion-note>{{ message.date }}</ion-note>
@@ -10,7 +10,7 @@
         </span>
       </h2>
       <h3>{{ message.subject }}</h3>
-      <p>
+      <p class="ion-text-wrap">
         {{message.content}}
       </p>
     </ion-label>
@@ -59,10 +59,20 @@ const isIos = () => {
 }
 
 .list-item p {
-  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  white-space: nowrap;
-  width: 95%;
+  /* Fallback for browsers not supporting "-webkit-line-clamp" */
+  max-height: calc(2 * 1.4em); /* 2 lines * line height */
+  line-height: 1.4em; /* Adjust line height for proper display */
+  /* Ensure proper text wrapping */
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  /* For newer browsers supporting "max-lines" */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-lines: 2;
 }
 
 .list-item .date {

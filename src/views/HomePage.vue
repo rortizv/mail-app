@@ -17,10 +17,10 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-searchbar value=""></ion-searchbar>
+      <ion-searchbar v-model="searchQuery" placeholder="Search by content"></ion-searchbar>
 
       <ion-list>
-        <MessageListItem v-for="message in messages" :key="message.id" :message="message" />
+        <MessageListItem v-for="message in filteredMessages" :key="message.id" :message="message" />
       </ion-list>
     </ion-content>
   </ion-page>
@@ -36,12 +36,25 @@ import {
   IonRefresherContent,
   IonTitle,
   IonToolbar,
+  IonSearchbar,
 } from '@ionic/vue';
 import MessageListItem from '@/components/MessageListItem.vue';
 import { getMessages, Message } from '@/data/messages';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 const messages = ref<Message[]>(getMessages());
+const searchQuery = ref<string>('');
+
+const filteredMessages = computed(() => {
+  if (!searchQuery.value) {
+    return messages.value;
+  } else {
+    const query = searchQuery.value.toLowerCase();
+    return messages.value.filter(
+      (message) => message.content.toLowerCase().includes(query)
+    );
+  }
+});
 
 const refresh = (ev: CustomEvent) => {
   setTimeout(() => {
@@ -49,6 +62,7 @@ const refresh = (ev: CustomEvent) => {
   }, 3000);
 };
 </script>
+
 
 <style scoped lang="scss">
 .input-search {
