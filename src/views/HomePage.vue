@@ -24,7 +24,8 @@
           v-for="message in filteredMessages" 
           :key="message.id" 
           :message="message" 
-          @click="markMessageAsReadAndNavigate(message.id)"
+          @messageClick="markMessageAsReadAndNavigate"
+          @deleteMessage="handleDeleteMessage"
         />
       </ion-list>
     </ion-content>
@@ -74,6 +75,13 @@ const refresh = (ev: CustomEvent) => {
   setTimeout(() => {
     ev.detail.complete();
   }, 3000);
+};
+
+const handleDeleteMessage = (id: number) => {
+  const index = messages.value.findIndex((msg) => msg.id === id);
+  if (index !== -1) {
+    messages.value.splice(index, 1);
+  }
 };
 </script>
 
